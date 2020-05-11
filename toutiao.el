@@ -4,6 +4,8 @@
 
 (defvar toutiao-user-id (getenv "TOUTIAO-USER-ID"))
 
+(defvar toutiao-request-sync nil)
+
 (defun toutiao--get-catalogs (dom)
   (let* ((post-dom (dom-by-id dom "new_post"))
          (span-doms (dom-by-tag post-dom 'span)))
@@ -44,20 +46,21 @@
                             ("Upgrade-Insecure-Requests" . "1")
                             ("Connection" . "keep-alive")))
          (request-parser (lambda ()
-                           (libxml-parse-html-region (point) (point-max))))
-         (response (request toutiao-url
-                     :method "GET"
-                     :headers request-headers
-                     :parser request-parser
-                     :sync t))
-         (data-dom (request-response-data response))
-         (post-url (toutiao--get-post-url data-dom))
-         (post-data (toutiao--get-post-data data-dom article-url article-title article-catalog)))
-    (request post-url
-      :method "POST"
-      :data post-data
+                           (libxml-parse-html-region (point) (point-max)))))
+    (request toutiao-url
+      :method "GET"
       :headers request-headers
-      :parser #'buffer-string
-      :sync t)))
+      :parser request-parser
+      :sync toutiao-request-sync
+      :success (cl-function
+                (lambda (&key data &allow-other-keys)
+                  (let ((post-url (toutiao--get-post-url data))
+                        (post-data (toutiao--get-post-data data article-url article-title article-catalog)))
+                    (request post-url
+                      :method "POST"
+                      :data post-data
+                      :headers request-headers
+                      :parser #'buffer-string
+                      :sync toutiao-request-sync)))))))
 
-;; (toutiao-post "https://www.lujun9972.win/blog/2020/05/03/org-mode%E5%8D%8F%E5%8A%A9%E8%BF%9B%E8%A1%8C%E6%9C%88%E5%BA%A6%E5%9B%9E%E9%A1%BE/index.html" "org-mode协助进行月度回顾")
+;; (toutiao-post "https://www.lujun9972.win/blog/2020/02/18/%E6%95%B4%E5%90%88appt%E4%B8%8Eorg-agenda/index.html" "整合appt与org-agenda")
