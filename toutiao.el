@@ -39,6 +39,7 @@
                       ("post[subject_id]" . ,catalog-id))))
     (nconc hidden-data submit-data article-data)))
 
+;;;###autoload
 (defun toutiao-post (article-url article-title &optional article-catalog)
   (interactive)
   (let* ((request-headers `(("Accept" . "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
@@ -60,7 +61,11 @@
                       :method "POST"
                       :data post-data
                       :headers request-headers
-                      :parser #'buffer-string
-                      :sync toutiao-request-sync)))))))
+                      :parser request-parser
+                      :sync toutiao-request-sync
+                      :success (cl-function
+                                (lambda (&key response &allow-other-keys)
+                                  (let ((location (request-response-header response "Location")))
+                                    (message "URL is %s" location)))))))))))
 
-;; (toutiao-post "https://www.lujun9972.win/blog/2020/02/18/%E6%95%B4%E5%90%88appt%E4%B8%8Eorg-agenda/index.html" "整合appt与org-agenda")
+;; (toutiao-post "https://www.lujun9972.win/blog/2020/02/15/%E5%9C%A8eshell%E4%B8%AD%E7%94%A8cat%E5%91%BD%E4%BB%A4%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/index.html" "在eshell中用cat命令显示图片")
