@@ -69,3 +69,5 @@
                                     (message "URL is %s" location)))))))))))
 
 ;; (toutiao-post "https://www.lujun9972.win/blog/2020/02/15/%E5%9C%A8eshell%E4%B8%AD%E7%94%A8cat%E5%91%BD%E4%BB%A4%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/index.html" "在eshell中用cat命令显示图片")
+
+(provide 'toutiao)
