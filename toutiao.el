@@ -2,7 +2,7 @@
 
 (defconst toutiao-url "https://toutiao.io/contribute")
 
-(defvar toutiao-user-id (getenv "TOUTIAO-USER-ID"))
+(defvar toutiao-user-id (getenv "TOUTIAO_USER_ID"))
 
 (defvar toutiao-request-sync nil)
 
