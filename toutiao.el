@@ -57,6 +57,7 @@
                 (lambda (&key data &allow-other-keys)
                   (let ((post-url (toutiao--get-post-url data))
                         (post-data (toutiao--get-post-data data article-url article-title article-catalog)))
+                    (message "toutiao DEBUG:[%s][%s]" post-url post-data)
                     (request post-url
                       :method "POST"
                       :data post-data
