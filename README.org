@@ -1,0 +1,28 @@
+#+TITLE: README
+#+AUTHOR: lujun9972
+#+TAGS: toutiao.el
+#+DATE: [2020-04-10 五 21:56]
+#+LANGUAGE:  zh-CN
+#+STARTUP:  inlineimages
+#+OPTIONS:  H:6 num:nil toc:t \n:nil ::t |:t ^:nil -:nil f:t *:t <:nil
+
+* 配置
+在使用toutiao分享开发者头条之前，需要先设置好Cookie中的 =permanent_user_id= 的值。
+
+每个浏览器查看 Cookie 值的方法都不一样，具体可以百度。
+
+以Firefox为例：
+
+1. 在Firefox上访问 https://toutiao.io/ 并登录
+2. 按 =Shift+Ctrl+i= 打开 Web Developer 面板
+3. 选择 =Storage= 标签
+4. 在左侧面板选择 =Cookies= -> =https://toutiao.io= 就能查看相应的值了
+   
+[[file:./images/screenshot-01.png]]
+
+设置 =toutiao-user-id= 变量
+
+* 分享文章
+1. 执行 =M-x toutiao-post=
+2. 以此输入分享文章的URL和标题
+3. 选择分享的独家号
